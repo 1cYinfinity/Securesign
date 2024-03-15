@@ -54,14 +54,18 @@ function shufflePasswordImages() {
 // element image recognition
 function signup() {
     let upmailValue = document.getElementById('upmail').value;
-    if (upmailValue !== '') {
+    let imgValues = Array.from(document.querySelectorAll('#passwordContainer img.clicked')).map(img => img.parentNode.id);
+    
+    let validEmails = ['gmail.com', 'hotmail.com']; // Add more valid email domains here
+    
+    if (upmailValue !== '' && imgValues.length > 0 && validEmails.some(domain => upmailValue.includes(domain))) {
         sessionStorage.setItem("upname", upmailValue);
-        sessionStorage.setItem("uppass", uppass);
+        sessionStorage.setItem("uppass", imgValues);
         var myText = "Account Created Successfully";
         alert(myText);
         shufflePasswordImages();
     } else {
-        alert('Username and email are mandatory');
+        alert('Username, email (with valid domain), and selecting password images are mandatory');
     }
 }
 
@@ -69,13 +73,17 @@ function signin() {
     let str = document.getElementById('inmail').value;
     let array = sessionStorage.getItem("uppass");
     let check1 = array.localeCompare(inpass.toString());
-    if ((!str.localeCompare(sessionStorage.getItem("upname"))) && !check1) {
+    
+    let validEmails = ['gmail.com', 'hotmail.com']; // Add more valid email domains here
+    
+    if (validEmails.some(domain => str.includes(domain)) && !check1 && (!str.localeCompare(sessionStorage.getItem("upname")))) {
         var myText = "Login is successful";
         alert(myText);
         shufflePasswordImages();
         window.location.assign("face.html");
     } else {
         loginAttempts++;
+        
         if (loginAttempts >= 3) {
             alert("Error: Account blocked after 3 failed login attempts");
             sendMail3(); // Notify user or admin
@@ -87,6 +95,7 @@ function signin() {
             shufflePasswordImages();
         }
     }
+    
     shufflePasswordImages(); // Shuffle the password images when transitioning from Signup to Signin
 }
 
