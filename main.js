@@ -53,35 +53,41 @@ function shufflePasswordImages() {
 
 // element image recognition
 function signup() {
-    sessionStorage.setItem("upname", document.getElementById('upmail').value);
-    sessionStorage.setItem("uppass", uppass);
-    var myText = "Account Created Succesfully";
-    alert(myText);
-    shufflePasswordImages();
+    let upmailValue = document.getElementById('upmail').value;
+    if (upmailValue !== '') {
+        sessionStorage.setItem("upname", upmailValue);
+        sessionStorage.setItem("uppass", uppass);
+        var myText = "Account Created Successfully";
+        alert(myText);
+        shufflePasswordImages();
+    } else {
+        alert('Username and email are mandatory');
+    }
 }
 
 function signin() {
-        let str = document.getElementById('inmail').value;
-        let array = sessionStorage.getItem("uppass");
-        let check1 = array.localeCompare(inpass.toString());
-        if ((!str.localeCompare(sessionStorage.getItem("upname"))) && !check1) {
-              var myText = "Login is successful";
-              alert(myText);
-              shufflePasswordImages();
-              window.location.assign("face.html");
+    let str = document.getElementById('inmail').value;
+    let array = sessionStorage.getItem("uppass");
+    let check1 = array.localeCompare(inpass.toString());
+    if ((!str.localeCompare(sessionStorage.getItem("upname"))) && !check1) {
+        var myText = "Login is successful";
+        alert(myText);
+        shufflePasswordImages();
+        window.location.assign("face.html");
+    } else {
+        loginAttempts++;
+        if (loginAttempts >= 3) {
+            alert("Error: Account blocked after 3 failed login attempts");
+            sendMail3(); // Notify user or admin
+            loginAttempts = 4; // Reset login attempts counter
+            shufflePasswordImages();
         } else {
-             loginAttempts++;
-             if (loginAttempts >= 3) {
-                  alert("Error: Account blocked after 3 failed login attempts");
-                  sendMail3(); // Notify user or admin
-                  loginAttempts = 4; // Reset login attempts counter
-                 shufflePasswordImages();
-             } else {
-                  var myText = "Login Failed";
-                  alert(myText);
-                  shufflePasswordImages();
-             }
+            var myText = "Login Failed";
+            alert(myText);
+            shufflePasswordImages();
         }
+    }
+    shufflePasswordImages(); // Shuffle the password images when transitioning from Signup to Signin
 }
 
 function sendMail3() {
