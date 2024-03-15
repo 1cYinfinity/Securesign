@@ -8,16 +8,38 @@
     <link rel="stylesheet" href="styles2.css">
 </head>
 
-<body>
-    <div class="container">
-        <h1>Face Detection</h1>
-        <video id="video" width="640" height="480" autoplay></video>
-        <div class="buttons">
-            <button id="capture">Capture</button>
-            <button id="validate">Validate</button>
+<body style="background-color: #f0f0f0; background-image: url('creative_background.jpg'); background-size: cover; background-repeat: no-repeat;">
+    <div class="container" style="border: 2px solid #333; border-radius: 10px; padding: 20px; background-color: #ddf7e1;">
+        <h1 style="text-align: center; color: #333; font-family: 'Arial', sans-serif;">Face Detection</h1>
+        <img src="face_icon.png" alt="Face Authentication" style="display: block; margin: 0 auto;">
+        <video id="video" width="640" height="480" autoplay style="display: block; margin: 0 auto;"></video>
+        <div class="buttons" style="text-align: center;">
+            <button id="capture" style="padding: 10px 20px; background-color: #007bff; color: #fff; font-size: 16px;">Capture</button>
+            <button id="validate" style="padding: 10px 20px; background-color: #28a745; color: #fff; font-size: 16px;">Validate</button>
+            <script>
+                if (!navigator.mediaDevices.getUserMedia) {
+                    alert('Please allow camera access before proceeding.');
+                } else {
+                    document.getElementById('capture').addEventListener('click', function() {
+                        // Capture image functionality here
+                    });
+                    document.getElementById('validate').addEventListener('click', function() {
+                        // Validate functionality here
+                    });
+                }
+            </script>
         </div>
     </div>
     <script src="script2.js"></script>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            background-image: url('creative_background.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
 </body>
 
 </html>
