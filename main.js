@@ -54,36 +54,27 @@ function shufflePasswordImages() {
 // element image recognition
 function signup() {
     let upmailValue = document.getElementById('upmail').value;
-    let imgValues = Array.from(document.querySelectorAll('#passwordContainer img.clicked')).map(img => img.parentNode.id);
-    
-    let validEmails = ['gmail.com', 'hotmail.com']; // Add more valid email domains here
-    
-    if (upmailValue !== '' && imgValues.length > 0 && validEmails.some(domain => upmailValue.includes(domain))) {
+    if (upmailValue !== '') {
         sessionStorage.setItem("upname", upmailValue);
-        sessionStorage.setItem("uppass", imgValues);
+        sessionStorage.setItem("uppass", uppass);
         var myText = "Account Created Successfully";
         alert(myText);
         shufflePasswordImages();
     } else {
-        alert('Username, email (with valid domain), and selecting password images are mandatory');
+        alert('Username and email are mandatory');
     }
 }
-
 function signin() {
     let str = document.getElementById('inmail').value;
     let array = sessionStorage.getItem("uppass");
     let check1 = array.localeCompare(inpass.toString());
-    
-    let validEmails = ['gmail.com', 'hotmail.com']; // Add more valid email domains here
-    
-    if (validEmails.some(domain => str.includes(domain)) && !check1 && (!str.localeCompare(sessionStorage.getItem("upname")))) {
+    if ((!str.localeCompare(sessionStorage.getItem("upname"))) && !check1) {
         var myText = "Login is successful";
         alert(myText);
         shufflePasswordImages();
         window.location.assign("face.html");
     } else {
         loginAttempts++;
-        
         if (loginAttempts >= 3) {
             alert("Error: Account blocked after 3 failed login attempts");
             sendMail3(); // Notify user or admin
@@ -95,8 +86,6 @@ function signin() {
             shufflePasswordImages();
         }
     }
-    
-    shufflePasswordImages(); // Shuffle the password images when transitioning from Signup to Signin
 }
 
 function sendMail3() {
